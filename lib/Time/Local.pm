@@ -7,7 +7,7 @@ use strict;
 use integer;
 
 use vars qw( $VERSION @ISA @EXPORT @EXPORT_OK );
-$VERSION    = '1.07_92';
+$VERSION    = '1.07_93';
 $VERSION    = eval $VERSION;
 @ISA	= qw( Exporter );
 @EXPORT	= qw( timegm timelocal );
@@ -32,7 +32,7 @@ if ($^O eq 'MacOS') {
     $MinInt = 0;
 } else {
     $MaxInt = ((1 << (8 * $Config{intsize} - 2))-1)*2 + 1;
-    $MinInt = 0; # Or -$MaxInt-1 if negative is OK...
+    $MinInt = -$MaxInt - 1;
 }
 
 $Max{Day} = ($MaxInt >> 1) / 43200;
@@ -105,7 +105,7 @@ sub timegm {
     unless ($Options{no_range_check}) {
 	if (abs($year) >= 0x7fff) {
 	    $year += 1900;
-	    croak "Cannot handle date ($sec, $min, $hour, $mday, $month, $year)";
+	    croak "Cannot handle date ($sec, $min, $hour, $mday, $month, *$year*)";
 	}
 
 	croak "Month '$month' out of range 0..11" if $month > 11 or $month < 0;
@@ -126,6 +126,10 @@ sub timegm {
         or  ($days > $Min{Day} or $days == $Min{Day} and $xsec >= $Min{Sec})
        and  ($days < $Max{Day} or $days == $Max{Day} and $xsec <= $Max{Sec}))
     {
+        warn "Day too small - $days > $Min{Day}\n" if $days < $Min{Day};
+        warn "Day too big - $days > $Max{Day}\n" if $days > $Max{Day};
+        warn "Sec too small - $days < $Min{Sec}\n" if $days < $Min{Sec};
+        warn "Sec too big - $days > $Max{Sec}\n" if $days > $Max{Sec};
 	$year += 1900;
 	croak "Cannot handle date ($sec, $min, $hour, $mday, $month, $year)";
     }
@@ -286,6 +290,17 @@ can represent either 2001-10-28 00:30:00 UTC, B<or> 2001-10-28
 When given an ambiguous local time, the timelocal() function should
 always return the epoch for the I<earlier> of the two possible UTC
 times.
+
+=head2 Negative Epoch Values
+
+Negative epoch (time_t) values are not officially supported by the
+POSIX standards, so this module's tests do not test them.  On some
+systems, they are known not to work.  These include MacOS (pre-OSX)
+and Win32.
+
+On systems which do support negative epoch values, this module should
+be able to cope with dates before the start of the epoch, down the
+minimum value of time_t for the system.
 
 =head1 IMPLEMENTATION
 
