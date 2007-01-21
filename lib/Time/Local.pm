@@ -7,7 +7,7 @@ use strict;
 use integer;
 
 use vars qw( $VERSION @ISA @EXPORT @EXPORT_OK );
-$VERSION   = '1.13';
+$VERSION   = '1.14';
 
 @ISA       = qw( Exporter );
 @EXPORT    = qw( timegm timelocal );
@@ -111,7 +111,7 @@ sub timegm {
 
 	my $md = $MonthDays[$month];
         ++$md
-            unless $month != 1 or $year % 4 or !( $year % 400 );
+            if $month == 1 && _is_leap_year($year);
 
         croak "Day '$mday' out of range 1..$md"  if $mday > $md or $mday < 1;
         croak "Hour '$hour' out of range 0..23"  if $hour > 23  or $hour < 0;
@@ -136,6 +136,14 @@ sub timegm {
            + ( SECS_PER_MINUTE * $min )
            + ( SECS_PER_HOUR * $hour )
            + ( SECS_PER_DAY * $days );
+}
+
+sub _is_leap_year {
+    return 0 if $_[0] % 4;
+    return 1 if $_[0] % 100;
+    return 0 if $_[0] % 400;
+
+    return 1;
 }
 
 sub timegm_nocheck {
@@ -202,7 +210,7 @@ This module provides functions that are the inverse of built-in perl
 functions C<localtime()> and C<gmtime()>. They accept a date as a
 six-element array, and return the corresponding C<time(2)> value in
 seconds since the system epoch (Midnight, January 1, 1970 GMT on Unix,
-for example).  This value can be positive or negative, though POSIX
+for example). This value can be positive or negative, though POSIX
 only requires support for positive values, so dates before the
 system's epoch may not work on all operating systems.
 
