@@ -1,6 +1,13 @@
-This is the Time::Local module shipped with the latest Perl
-distribution, but made backwards compatible with Perl 5.00503.
 
-Time::Local provides functions to translates the results of Perl's
-localtime() and gmtime() functions back to seconds since the epoch.
+
+This archive contains the distribution Time-Local,
+version 1.2100:
+
+  efficiently compute time from local and GMT time
+
+This software is copyright (c) 2012 by Dave Rolsky.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
 
