@@ -13,7 +13,7 @@ my %WriteMakefileArgs = (
   "AUTHOR" => "Dave Rolsky <autarch\@urth.org>",
   "BUILD_REQUIRES" => {
     "POSIX" => 0,
-    "Test::More" => 0,
+    "Test::More" => "0.88",
     "warnings" => 0
   },
   "CONFIGURE_REQUIRES" => {
@@ -31,7 +31,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "vars" => 0
   },
-  "VERSION" => "1.2100",
+  "VERSION" => "1.2200",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -32,7 +32,7 @@
       "test" : {
          "requires" : {
             "POSIX" : "0",
-            "Test::More" : "0",
+            "Test::More" : "0.88",
             "warnings" : "0"
          }
       }
@@ -49,6 +49,6 @@
          "web" : "http://git.urth.org/Markdent.git"
       }
    },
-   "version" : "1.2100"
+   "version" : "1.2200"
 }
 
