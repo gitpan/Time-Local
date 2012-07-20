@@ -40,15 +40,15 @@
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "mailto" : "bug-markdent@rt.cpan.org",
-         "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=Markdent"
+         "mailto" : "bug-time-local@rt.cpan.org",
+         "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=Time-Local"
       },
       "repository" : {
          "type" : "git",
-         "url" : "git://git.urth.org/Markdent.git",
-         "web" : "http://git.urth.org/Markdent.git"
+         "url" : "git://git.urth.org/Time-Local.git",
+         "web" : "http://git.urth.org/Time-Local.git"
       }
    },
-   "version" : "1.2200"
+   "version" : "1.2300"
 }
 
